@@ -11,24 +11,15 @@ exports.getGame = async (req, res) => {
 };
 
 exports.saveGame = async (req, res) => {
-  const { board, score, bestScore } = req.body;
+  const { board, score } = req.body;
 
   try {
     const game = await Game.findOneAndUpdate(
       { user: req.user.id },
-      { board, score, bestScore },
+      { board, score},
       { new: true, upsert: true }
     );
     res.json({ message: "Game saved successfully", game });
-  } catch (err) {
-    res.status(500).json({ error: "Server error" });
-  }
-};
-
-exports.deleteGame = async (req, res) => {
-  try {
-    await Game.findOneAndDelete({ user: req.user.id });
-    res.json({ message: "Game deleted" });
   } catch (err) {
     res.status(500).json({ error: "Server error" });
   }

@@ -5,13 +5,15 @@ require("dotenv").config();
 
 const userRoutes = require("./routes/userRoutes");
 const gameRoutes = require("./routes/gameRoutes");
+const scoreRoutes = require("./routes/scoreRoutes");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
-app.use("/api/games", gameRoutes);
+app.use("/api/game", gameRoutes);
+app.use("/api/score", scoreRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)

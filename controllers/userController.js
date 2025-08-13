@@ -2,43 +2,47 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 };
 
 exports.registerUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
-    const userExists = await User.findOne({ username });
-    if (userExists) return res.status(400).json({ error: "Username already exists" });
+    const userExists = await User.findOne({ $or: [{ username }, { email }] });
+    if (userExists) return res.status(400).json({ error: "Username or email already exists" });
 
-    const user = await User.create({ username, password });
+    const user = await User.create({ username, email, password });
 
     res.status(201).json({
       _id: user._id,
       username: user.username,
+      email: user.email,
       token: generateToken(user._id)
     });
   } catch (err) {
-    res.status(500).json({ error: "Server error" });
+    console.error("Registration error:", err);
+    res.status(500).json({ error: "Server error", details: err.message });
   }
 };
 
 exports.loginUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ $or: [{ username }, { email }] });
     if (!user || !(await user.matchPassword(password))) {
-      return res.status(401).json({ error: "Invalid username or password" });
+      return res.status(401).json({ error: "Invalid credentials" });
     }
 
     res.json({
       _id: user._id,
       username: user.username,
+      email: user.email,
       token: generateToken(user._id)
     });
   } catch (err) {
-    res.status(500).json({ error: "Server error" });
+    console.error("Login error:", err);
+    res.status(500).json({ error: "Server error", details: err.message });
   }
 };
