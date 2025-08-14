@@ -2,7 +2,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "2m" });
 };
 
 exports.registerUser = async (req, res) => {
@@ -44,5 +44,21 @@ exports.loginUser = async (req, res) => {
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ error: "Server error", details: err.message });
+  }
+};
+
+exports.updatePassword = async (req, res) => {
+  const userId = req.user.id;
+  const { oldPassword, newPassword } = req.body;
+  try {
+    const user = await User.findById(userId);
+    if (!user || !(await user.matchPassword(oldPassword))) {
+      return res.status(400).json({ message: "Current password is incorrect." });
+    }
+    user.password = newPassword;
+    await user.save();
+    res.json({ message: "Password updated successfully." });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to update password." });
   }
 };

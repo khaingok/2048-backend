@@ -10,7 +10,7 @@ exports.saveScore = async (req, res) => {
   }
 };
 
-exports.getScores = async (req, res) => {
+exports.getUserScores = async (req, res) => {
   try {
     const userId = req.user.id;
     const scores = await Score.find({ user: userId })
@@ -27,10 +27,11 @@ exports.getScores = async (req, res) => {
 
 exports.getUserBestScore = async (req, res) => {
   try {
-    const best = await Score.findOne({ user: userId }).sort({ bestScore: -1 });
-    res.json({ bestScore: best ? best.bestScore : 0 });
+    const userId = req.user.id;
+    const bestScoreDoc = await Score.findOne({ user: userId }).sort({ score: -1 });
+    res.json({ bestScore: bestScoreDoc ? bestScoreDoc.score : 0 });
   } catch (err) {
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ message: "Failed to fetch best score" });
   }
 };
 

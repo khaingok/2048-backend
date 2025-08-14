@@ -14,6 +14,9 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/game", gameRoutes);
 app.use("/api/score", scoreRoutes);
+app.get("/", (req, res) => {
+  res.json({ message: "2048 API is running" });
+});
 
 mongoose
   .connect(process.env.MONGO_URI)
