@@ -22,15 +22,15 @@ exports.getUserBestScore = async (req, res) => {
   }
 };
 
-exports.getUserBestScore = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const bestScoreDoc = await Score.findOne({ user: userId }).sort({ score: -1 });
-    res.json({ bestScore: bestScoreDoc ? bestScoreDoc.score : 0 });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to fetch best score" });
-  }
-};
+// exports.getUserBestScore = async (req, res) => {
+//   try {
+//     const userId = req.user.id;
+//     const bestScoreDoc = await Score.findOne({ user: userId }).sort({ score: -1 });
+//     res.json({ bestScore: bestScoreDoc ? bestScoreDoc.score : 0 });
+//   } catch (err) {
+//     res.status(500).json({ message: "Failed to fetch best score" });
+//   }
+// };
 
 exports.deleteScore = async (req, res) => {
   try {
