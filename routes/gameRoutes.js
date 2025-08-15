@@ -18,7 +18,7 @@ module.exports = router;
  * /api/game:
  *   get:
  *     tags: [Game]
- *     summary: Load the current game for the authenticated user
+ *     summary: Load the last saved game for the authenticated user
  *     security:
  *       - bearerAuth: []
  *     responses:
