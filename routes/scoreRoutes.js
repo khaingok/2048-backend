@@ -9,3 +9,60 @@ router.get("/best", protect, getUserBestScore);
 router.delete("/:id", protect, deleteScore);
 
 module.exports = router;
+
+/**
+ * @swagger
+ * /api/score:
+ *   post:
+ *     summary: Save a user's score
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               score:
+ *                 type: integer
+ *               bestScore:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Score saved
+ *
+ *   get:
+ *     summary: Get all scores for the authenticated user
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of scores
+ *
+ * /api/score/best:
+ *   get:
+ *     summary: Get the best score for the authenticated user
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Best score
+ *
+ * /api/score/{id}:
+ *   delete:
+ *     summary: Delete a score by ID
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Score deleted
+ *       404:
+ *         description: Score not found
+ */
