@@ -11,8 +11,13 @@ module.exports = router;
 
 /**
  * @swagger
+ * tags:
+ *   - name: User
+ *     description: User management and authentication
+ *
  * /api/users/register:
  *   post:
+ *     tags: [User]
  *     summary: Register a new user
  *     requestBody:
  *       required: true
@@ -35,6 +40,7 @@ module.exports = router;
  *
  * /api/users/login:
  *   post:
+ *     tags: [User]
  *     summary: Login a user
  *     requestBody:
  *       required: true
@@ -57,6 +63,7 @@ module.exports = router;
  *
  * /api/users/update-password:
  *   put:
+ *     tags: [User]
  *     summary: Update user password
  *     security:
  *       - bearerAuth: []

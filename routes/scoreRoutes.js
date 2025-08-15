@@ -12,8 +12,13 @@ module.exports = router;
 
 /**
  * @swagger
+ * tags:
+ *   - name: Score
+ *     description: Score management
+ *
  * /api/score:
  *   post:
+ *     tags: [Score]
  *     summary: Save a user's score
  *     security:
  *       - bearerAuth: []
@@ -33,6 +38,7 @@ module.exports = router;
  *         description: Score saved
  *
  *   get:
+ *     tags: [Score]
  *     summary: Get all scores for the authenticated user
  *     security:
  *       - bearerAuth: []
@@ -42,6 +48,7 @@ module.exports = router;
  *
  * /api/score/best:
  *   get:
+ *     tags: [Score]
  *     summary: Get the best score for the authenticated user
  *     security:
  *       - bearerAuth: []
@@ -51,6 +58,7 @@ module.exports = router;
  *
  * /api/score/{id}:
  *   delete:
+ *     tags: [Score]
  *     summary: Delete a score by ID
  *     security:
  *       - bearerAuth: []
